@@ -1,0 +1,19 @@
+.wrapper_header {
+    position:sticky;
+    top: 0;
+    background: rgba(19, 19, 38, 0.30);
+    backdrop-filter: blur(22px);
+    
+}
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    background:transparent;
+    padding: 16px;
+    align-items: center;
+    width: 100%;
+	max-width: 1480px;
+    margin: 0 auto;
+
+}
