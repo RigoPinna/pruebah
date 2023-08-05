@@ -5,7 +5,9 @@ export const Navbar = () => {
 	return (
 		<Row>
 			<Col xs={24}>
-				<Layout></Layout>
+				<Layout>
+					<p>test commit</p>
+				</Layout>
 			</Col>
 		</Row>
 	);
