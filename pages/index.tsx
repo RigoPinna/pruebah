@@ -1,11 +1,11 @@
 import { LayoutHome } from '@/components/layouts';
-import { Typography } from 'antd';
+import { CharacterList } from '@/components/ui';
 
 export default function Home() {
 	return (
 		<>
 			<LayoutHome>
-				<Typography.Title level={1}>Hello!!</Typography.Title>
+				<CharacterList />
 			</LayoutHome>
 		</>
 	);
