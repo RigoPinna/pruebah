@@ -5,6 +5,7 @@ import { CharacterList, _character_minify } from '@/components/ui';
 
 import { _result_api } from '@/types';
 import { useEffect, useState } from 'react';
+import { Paginator } from '@/components/ui/Paginator';
 const statusColors = {
 	Alive: 'green',
 	Dead: 'orange',
@@ -32,6 +33,7 @@ export const getStaticProps: GetStaticProps = async ctx => {
 			props: {
 				characters: characters_minify,
 				status: 'ok',
+				pages: data.info.pages,
 			},
 		};
 	} catch (error) {
@@ -39,6 +41,7 @@ export const getStaticProps: GetStaticProps = async ctx => {
 			props: {
 				characters: [],
 				status: 'error',
+				pages: 0,
 			},
 		};
 	}
@@ -46,14 +49,16 @@ export const getStaticProps: GetStaticProps = async ctx => {
 interface _props {
 	characters: _character_minify[];
 	status: 'ok' | 'error';
+	pages: number;
 }
-const Home: NextPage<_props> = ({ characters, status }) => {
+const Home: NextPage<_props> = ({ characters, status, pages }) => {
 	const [result, setResult] = useState<_character_minify[]>(characters);
-
+	const handleChangePage = (page: number) => {};
 	return (
 		<>
 			<LayoutHome>
 				<CharacterList characters={result} />
+				<Paginator pages={pages} onChange={handleChangePage} />
 			</LayoutHome>
 		</>
 	);
