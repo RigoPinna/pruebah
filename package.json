@@ -9,15 +9,20 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@next/font": "13.4.12",
+    "@ant-design/icons": "^5.2.4",
+    "@types/antd": "^1.0.0",
     "@types/node": "20.4.7",
     "@types/react": "18.2.18",
     "@types/react-dom": "18.2.7",
+    "antd": "^5.8.2",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
     "next": "13.4.12",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "5.1.6"
+  },
+  "devDependencies": {
+    "prettier": "^3.0.1"
   }
 }
