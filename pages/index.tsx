@@ -1,17 +1,14 @@
 import { GetStaticProps, NextPage } from 'next';
-import { useSearchParams } from 'next/navigation';
 import { LayoutHome } from '@/components/layouts';
 import { CharacterList, _character_minify } from '@/components/ui';
 
-import { _result_api } from '@/types';
-import { useEffect, useState } from 'react';
+import { _character, _result_api } from '@/types';
+import { useState } from 'react';
 import { Paginator } from '@/components/ui/Paginator';
-const statusColors = {
-	Alive: 'green',
-	Dead: 'orange',
-	unknown: 'grey',
-};
-Object.freeze(statusColors);
+import { fomatterCharacters } from '@/utils';
+import { useShowNotification } from '@/hooks';
+import { Skeleton } from 'antd';
+
 export const getStaticProps: GetStaticProps = async ctx => {
 	try {
 		const resp = await fetch(
@@ -21,14 +18,7 @@ export const getStaticProps: GetStaticProps = async ctx => {
 			},
 		);
 		const data = (await resp.json()) as _result_api;
-		const characters_minify = data.results.map(character => ({
-			id: character.id,
-			image: character.image,
-			name: character.name,
-			species: character.species,
-			status: character.status,
-			statusColor: statusColors[character.status] || 'blue',
-		}));
+		const characters_minify = fomatterCharacters(data);
 		return {
 			props: {
 				characters: characters_minify,
@@ -51,14 +41,59 @@ interface _props {
 	status: 'ok' | 'error';
 	pages: number;
 }
+
 const Home: NextPage<_props> = ({ characters, status, pages }) => {
 	const [result, setResult] = useState<_character_minify[]>(characters);
-	const handleChangePage = (page: number) => {};
+	const [notification, openNotification] = useShowNotification();
+	const [isLoading, setisLoading] = useState(false);
+	const [currentPage, setCurrentPage] = useState(1);
+	const handleChangePage = (page: number) => {
+		setisLoading(true);
+		fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/character/?page=${page}`)
+			.then(resp => resp.json())
+			.then((characters: _result_api) => {
+				const newCharacters = fomatterCharacters(
+					characters,
+				) as _character_minify[];
+				setResult(newCharacters);
+				setisLoading(false);
+				setCurrentPage(page);
+			})
+			.catch(err => {
+				setisLoading(false);
+				openNotification(
+					{
+						message: `We have a little problem.`,
+						description: `Sorry. Unless you've got a time machine, that content is unavailable.`,
+						placement: 'top',
+					},
+					'error',
+				);
+			})
+			.finally(() => {
+				setisLoading(false);
+			});
+	};
+
 	return (
 		<>
+			{notification}
 			<LayoutHome>
-				<CharacterList characters={result} />
-				<Paginator pages={pages} onChange={handleChangePage} />
+				<Skeleton
+					loading={isLoading}
+					round
+					active
+					avatar={{ shape: 'square', size: 'large' }}
+				>
+					<CharacterList characters={result} />
+				</Skeleton>
+				{!isLoading && (
+					<Paginator
+						currentPage={currentPage}
+						pages={pages}
+						onChange={handleChangePage}
+					/>
+				)}
 			</LayoutHome>
 		</>
 	);

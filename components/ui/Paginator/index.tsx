@@ -1,23 +1,16 @@
 'use client';
-import { Pagination, Row, Space } from 'antd';
+import { Pagination, Row } from 'antd';
 import { useRouter } from 'next/router';
 import React, { FC, useState } from 'react';
 
 interface _props {
 	pages: number;
+	currentPage: number;
 	onChange: (currenPage: number) => void;
 }
-export const Paginator: FC<_props> = ({ pages, onChange }) => {
-	const [currentPage, setCurrentPage] = useState(1);
-	const { push, query } = useRouter();
-	const updateParams = (numberPage: string) => {
-		push({ query: { ...query, page: numberPage } }, undefined, {
-			shallow: true,
-		});
-	};
+export const Paginator: FC<_props> = ({ pages, onChange, currentPage }) => {
 	const handleUpdatePaginators = (page: number) => {
 		onChange(page);
-		setCurrentPage(page);
 	};
 	return (
 		<Row justify='center'>
