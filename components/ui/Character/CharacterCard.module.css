@@ -1,0 +1,12 @@
+.card {
+    cursor: default;
+}
+.cta > span:last-child {
+    font-size: 0;
+    transition: all 0.3s;
+
+}
+.cta:hover > span:last-child {
+    font-size: 14px;
+
+}
