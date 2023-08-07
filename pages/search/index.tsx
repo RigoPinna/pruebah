@@ -2,19 +2,80 @@
 import { NextPage } from 'next';
 import { LayoutGeneral } from '@/components/layouts';
 import { useSearchParams } from 'next/navigation';
-import { Typography, Input, Layout, theme, Row, Col, Statistic } from 'antd';
-import { FireOutlined } from '@ant-design/icons';
-import { CharacterList } from '@/components/ui';
+import { Typography, Input, Layout, theme, Row, Col } from 'antd';
+import { CharacterList, _character_minify } from '@/components/ui';
 
 import { NumberResults } from '@/components/ui/NumberResult';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { _result_api } from '@/types';
+import { useRouter } from 'next/router';
+import { getCharacterByNameOrSpecie } from '@/services';
 const { useToken } = theme;
+
+interface _result {
+	status: 'ok' | 'error';
+	searchBy: string;
+	fillter: string;
+	characters: _character_minify[];
+	count: number;
+}
 const SearchPage: NextPage = () => {
+	const { push } = useRouter();
 	const searchParams = useSearchParams();
+	const [result, setResult] = useState<_result>({
+		status: 'ok',
+		count: 0,
+		fillter: '',
+		searchBy: '',
+		characters: [],
+	});
+	const [isLoading, setisLoading] = useState(true);
+	const [searchByName, setSearchByName] = useState('');
 	const {
 		token: { colorBgContainer },
 	} = useToken();
-	const name = decodeURIComponent(searchParams.get('name') || '');
-
+	useEffect(() => {
+		const name = decodeURIComponent(searchParams.get('name') || '');
+		const specie = decodeURIComponent(searchParams.get('specie') || '');
+		if (name !== '' || specie) {
+			getCharacterByNameOrSpecie(name, specie)
+				.then(data => {
+					setResult({
+						status: 'ok',
+						searchBy: name,
+						fillter: '',
+						count: data.info.count,
+						characters: data.results,
+					});
+					setisLoading(false);
+				})
+				.catch(err => {
+					console.log(err);
+					setisLoading(false);
+					setResult({
+						status: 'error',
+						count: 0,
+						fillter: '',
+						searchBy: name,
+						characters: [],
+					});
+				})
+				.finally(() => {
+					setisLoading(false);
+				});
+		}
+	}, [searchParams]);
+	const handleOnSearch = (value: string) => {
+		push({
+			pathname: '/search',
+			query: {
+				name: encodeURIComponent(value.trim()),
+			},
+		});
+	};
+	const handleOnChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
+		setSearchByName(target.value);
+	};
 	return (
 		<LayoutGeneral>
 			<Layout>
@@ -27,9 +88,10 @@ const SearchPage: NextPage = () => {
 					<Row justify={'center'}>
 						<Col xs={13}>
 							<Input.Search
+								onChange={handleOnChange}
 								placeholder='Search by name'
-								onSearch={() => {}}
-								value={name}
+								onSearch={handleOnSearch}
+								value={searchByName}
 								size='large'
 								style={{
 									width: '100%',
@@ -43,9 +105,9 @@ const SearchPage: NextPage = () => {
 									margin: '0 auto',
 								}}
 							>
-								{name}
+								{result?.searchBy}
 							</Typography.Title>
-							<NumberResults total={1000} />
+							<NumberResults total={result?.count || 0} />
 						</Col>
 					</Row>
 				</Layout.Header>
@@ -54,7 +116,7 @@ const SearchPage: NextPage = () => {
 						background: `${colorBgContainer}`,
 					}}
 				>
-					<CharacterList characters={[]} />
+					<CharacterList characters={result?.characters || []} />
 				</Layout.Content>
 			</Layout>
 		</LayoutGeneral>
