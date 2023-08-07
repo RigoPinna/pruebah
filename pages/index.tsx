@@ -1,5 +1,5 @@
 import { GetStaticProps, NextPage } from 'next';
-import { LayoutHome } from '@/components/layouts';
+import { LayoutGeneral } from '@/components/layouts';
 import { CharacterList, _character_minify } from '@/components/ui';
 
 import { _character, _result_api } from '@/types';
@@ -18,7 +18,7 @@ export const getStaticProps: GetStaticProps = async ctx => {
 			},
 		);
 		const data = (await resp.json()) as _result_api;
-		const characters_minify = fomatterCharacters(data);
+		const characters_minify = fomatterCharacters(data.results);
 		return {
 			props: {
 				characters: characters_minify,
@@ -53,7 +53,7 @@ const Home: NextPage<_props> = ({ characters, status, pages }) => {
 			.then(resp => resp.json())
 			.then((characters: _result_api) => {
 				const newCharacters = fomatterCharacters(
-					characters,
+					characters.results,
 				) as _character_minify[];
 				setResult(newCharacters);
 				setisLoading(false);
@@ -78,7 +78,7 @@ const Home: NextPage<_props> = ({ characters, status, pages }) => {
 	return (
 		<>
 			{notification}
-			<LayoutHome>
+			<LayoutGeneral>
 				<Skeleton
 					loading={isLoading}
 					round
@@ -94,7 +94,7 @@ const Home: NextPage<_props> = ({ characters, status, pages }) => {
 						onChange={handleChangePage}
 					/>
 				)}
-			</LayoutHome>
+			</LayoutGeneral>
 		</>
 	);
 };
