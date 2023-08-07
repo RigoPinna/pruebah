@@ -13,7 +13,7 @@ export const Paginator: FC<_props> = ({ pages, onChange, currentPage }) => {
 		onChange(page);
 	};
 	return (
-		<Row justify='center'>
+		<Row justify='center' style={{ marginTop: '16px' }}>
 			<Pagination
 				current={currentPage}
 				total={pages}
