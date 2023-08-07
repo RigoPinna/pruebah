@@ -1,11 +1,11 @@
 import Head from 'next/head';
 import React, { FC, ReactNode } from 'react';
-import styles from './LayoutHome.module.css';
+import styles from './LayoutGeneral.module.css';
 import { Navbar } from '../ui';
 interface _props {
 	children: ReactNode;
 }
-export const LayoutHome: FC<_props> = ({ children }) => {
+export const LayoutGeneral: FC<_props> = ({ children }) => {
 	return (
 		<>
 			<Head>
