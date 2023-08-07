@@ -48,6 +48,7 @@ export const LocationDetails: FC<_props> = ({ location }) => {
 					Residents
 				</Typography.Title>
 				<Avatar.Group
+					style={{ flexWrap: 'wrap' }}
 					maxCount={10}
 					maxStyle={{
 						display: 'flex',

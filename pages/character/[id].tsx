@@ -29,6 +29,7 @@ import { LayoutGeneral } from '@/components/layouts';
 
 import { _character } from '@/types';
 import { LocationDetails } from '@/components/ui/LocationDetails';
+import { ChapterList } from '@/components/ui';
 
 interface _props {
 	character: _character;
@@ -44,6 +45,13 @@ const CharacterPage: NextPage<_props> = ({ character }) => {
 			key: '1',
 			label: 'Location',
 			children: <LocationDetails location={character.location} />,
+		},
+		{
+			key: '2',
+			label: `${character.episode.length > 2 ? 'Chapters' : 'Champert'} • ${
+				character.episode.length
+			}`,
+			children: <ChapterList episodes={character.episode} />,
 		},
 	];
 	return (
