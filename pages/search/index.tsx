@@ -101,7 +101,7 @@ const SearchPage: NextPage = () => {
 		);
 	};
 	return (
-		<LayoutGeneral>
+		<LayoutGeneral metaTitle='Search'>
 			<Layout>
 				<Layout.Header
 					style={{
