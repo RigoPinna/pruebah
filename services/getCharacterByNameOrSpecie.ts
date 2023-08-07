@@ -5,7 +5,7 @@ export const getCharacterByNameOrSpecie = async (name = '', specie = '') => {
 	try {
 		switch (true) {
 			case name !== '' && specie !== '':
-				query = `/character/?name=${name}&specie=${specie}`;
+				query = `/character/?name=${name}&species=${specie}`;
 				const resp1 = await fetch(
 					`${process.env.NEXT_PUBLIC_API_DOMAIN}${query}`,
 				);
@@ -19,7 +19,7 @@ export const getCharacterByNameOrSpecie = async (name = '', specie = '') => {
 				const data2 = await resp2.json();
 				return { ...data2, results: fomatterCharacters(data2.results) };
 			case specie !== '':
-				query = `/character/?specie=${specie}`;
+				query = `/character/?species=${specie}`;
 				const resp3 = await fetch(
 					`${process.env.NEXT_PUBLIC_API_DOMAIN}${query}`,
 				);

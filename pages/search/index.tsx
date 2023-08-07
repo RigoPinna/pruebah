@@ -2,14 +2,28 @@
 import { NextPage } from 'next';
 import { LayoutGeneral } from '@/components/layouts';
 import { useSearchParams } from 'next/navigation';
-import { Typography, Input, Layout, theme, Row, Col } from 'antd';
-import { CharacterList, _character_minify } from '@/components/ui';
+import {
+	Typography,
+	Input,
+	Layout,
+	theme,
+	Row,
+	Col,
+	Popover,
+	Button,
+} from 'antd';
+import {
+	ButtonFilter,
+	CharacterList,
+	_character_minify,
+} from '@/components/ui';
 
 import { NumberResults } from '@/components/ui/NumberResult';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { _result_api } from '@/types';
 import { useRouter } from 'next/router';
 import { getCharacterByNameOrSpecie } from '@/services';
+import { FilterOutlined } from '@ant-design/icons';
 const { useToken } = theme;
 
 interface _result {
@@ -37,7 +51,7 @@ const SearchPage: NextPage = () => {
 	useEffect(() => {
 		const name = decodeURIComponent(searchParams.get('name') || '');
 		const specie = decodeURIComponent(searchParams.get('specie') || '');
-		if (name !== '' || specie) {
+		if (name !== '' || specie !== '') {
 			getCharacterByNameOrSpecie(name, specie)
 				.then(data => {
 					setResult({
@@ -66,12 +80,14 @@ const SearchPage: NextPage = () => {
 		}
 	}, [searchParams]);
 	const handleOnSearch = (value: string) => {
-		push({
-			pathname: '/search',
-			query: {
-				name: encodeURIComponent(value.trim()),
-			},
-		});
+		if (value.trim() !== '') {
+			push({
+				pathname: '/search',
+				query: {
+					name: encodeURIComponent(value.trim()),
+				},
+			});
+		}
 	};
 	const handleOnChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
 		setSearchByName(target.value);
@@ -87,16 +103,20 @@ const SearchPage: NextPage = () => {
 				>
 					<Row justify={'center'}>
 						<Col xs={13}>
-							<Input.Search
-								onChange={handleOnChange}
-								placeholder='Search by name'
-								onSearch={handleOnSearch}
-								value={searchByName}
-								size='large'
-								style={{
-									width: '100%',
-								}}
-							/>
+							<Row>
+								<Input.Search
+									onChange={handleOnChange}
+									placeholder='Search by name'
+									onSearch={handleOnSearch}
+									value={searchByName}
+									size='large'
+									style={{
+										flex: 1,
+										marginRight: '16px',
+									}}
+								/>
+								<ButtonFilter searchBy={result.searchBy} />
+							</Row>
 							<Typography.Title
 								level={1}
 								style={{
