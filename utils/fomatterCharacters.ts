@@ -1,5 +1,5 @@
 import { _character, _result_api } from '@/types';
-const statusColors = {
+export const statusColors = {
 	Alive: 'green',
 	Dead: 'orange',
 	unknown: 'grey',

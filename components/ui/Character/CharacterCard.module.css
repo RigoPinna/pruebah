@@ -4,9 +4,12 @@
 .cta > span:last-child {
     font-size: 0;
     transition: all 0.3s;
-
 }
-.cta:hover > span:last-child {
+.card:hover .cta > span:last-child {
     font-size: 14px;
-
+}
+@media only screen and (max-width:1025px) {
+    .cta > span:last-child {
+        font-size: 14px;
+    }
 }
