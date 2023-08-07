@@ -14,7 +14,6 @@ export const AvatarResident: FC<_props> = ({ url }) => {
 				setResident(character);
 			})
 			.catch(err => {
-				console.log('ERROR');
 				setResident(undefined);
 				setIsLoading(false);
 			})

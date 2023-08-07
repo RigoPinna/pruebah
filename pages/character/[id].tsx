@@ -44,7 +44,7 @@ const CharacterPage: NextPage<_props> = ({ character }) => {
 		{
 			key: '1',
 			label: 'Location',
-			children: <LocationDetails location={character.location} />,
+			children: <LocationDetails url={character.location.url} />,
 		},
 		{
 			key: '2',

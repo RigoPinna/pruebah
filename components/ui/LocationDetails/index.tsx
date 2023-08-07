@@ -12,15 +12,15 @@ import { AvatarResident } from '../AvatarResident';
 
 const spiner = <SpinnerIcon />;
 interface _props {
-	location: _location;
+	url: string;
 }
-export const LocationDetails: FC<_props> = ({ location }) => {
+export const LocationDetails: FC<_props> = ({ url }) => {
 	const [isLoading, setisLoading] = useState(true);
 	const [data, setData] = useState<_location_details_mim | undefined>(
 		undefined,
 	);
 	useEffect(() => {
-		getLocationDetails(location.url)
+		getLocationDetails(url)
 			.then(resp => {
 				setData(resp);
 			})
@@ -28,7 +28,7 @@ export const LocationDetails: FC<_props> = ({ location }) => {
 			.finally(() => {
 				setisLoading(false);
 			});
-	}, [location.url]);
+	}, []);
 	if (isLoading) {
 		return <Spin tip='Loading' size='small' indicator={spiner} />;
 	}
