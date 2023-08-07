@@ -11,10 +11,13 @@ import {
 	Col,
 	Popover,
 	Button,
+	Space,
+	Skeleton,
 } from 'antd';
 import {
 	ButtonFilter,
 	CharacterList,
+	SearchLoadingList,
 	_character_minify,
 } from '@/components/ui';
 
@@ -23,7 +26,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { _result_api } from '@/types';
 import { useRouter } from 'next/router';
 import { getCharacterByNameOrSpecie } from '@/services';
-import { FilterOutlined } from '@ant-design/icons';
+import { DotChartOutlined, FilterOutlined } from '@ant-design/icons';
 const { useToken } = theme;
 
 interface _result {
@@ -137,7 +140,11 @@ const SearchPage: NextPage = () => {
 						background: `${colorBgContainer}`,
 					}}
 				>
-					<CharacterList characters={result?.characters || []} />
+					{isLoading ? (
+						<SearchLoadingList />
+					) : (
+						<CharacterList characters={result?.characters || []} />
+					)}
 				</Layout.Content>
 			</Layout>
 		</LayoutGeneral>
