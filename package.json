@@ -1,6 +1,6 @@
 {
-  "name": "pruebat",
-  "version": "0.1.0",
+  "name": "rick-and-morty",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
