@@ -5,3 +5,5 @@ export * from './AvatarResident';
 export * from './EpisodeList';
 export * from './NumberResult';
 export * from './ButtonFilter';
+export * from './SearchLoadingList';
+export * from './Paginator';
