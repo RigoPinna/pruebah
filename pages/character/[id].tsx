@@ -56,7 +56,11 @@ const CharacterPage: NextPage<_props> = ({ character }) => {
 		},
 	];
 	return (
-		<LayoutGeneral>
+		<LayoutGeneral
+			metaTitle={character.name}
+			description={`The character ${character.name} by Rick and Morty`}
+			image={character.image}
+		>
 			<Layout style={{ background: `${colorBgContainer}` }}>
 				<Layout.Header
 					style={{ background: `${colorBgContainer}`, padding: 0 }}
