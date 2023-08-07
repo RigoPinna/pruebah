@@ -1,0 +1,22 @@
+.illustration {
+    animation: float 6s ease infinite;
+    filter: drop-shadow(-2px 18px 10px #1c1c1c41);
+}
+@keyframes float {
+    0% {
+      transform: translatey(0px) rotate(0deg);
+
+    }
+    50% {
+      transform: translatey(-20px) rotate(5deg);
+
+    }
+    80% {
+      transform: translatey(0px) rotate(-5deg);
+
+    }
+    100% {
+      transform: translatey(0px) rotate(0deg);
+
+    }
+  }
