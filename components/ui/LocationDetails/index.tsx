@@ -54,8 +54,8 @@ export const LocationDetails: FC<_props> = ({ location }) => {
 						display: 'flex',
 						alignItems: 'center',
 						justifyContent: 'center',
-						color: '#f56a00',
-						backgroundColor: '#fde3cf',
+						color: '#0078CE',
+						backgroundColor: '#C0E5FF',
 						width: '38px',
 						height: '38px',
 					}}

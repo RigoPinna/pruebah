@@ -4,7 +4,7 @@ interface _props {
 	episodes: string[];
 }
 const regex = /[0-9]+/g;
-export const ChapterList: FC<_props> = ({ episodes }) => {
+export const EpisodeList: FC<_props> = ({ episodes }) => {
 	const numberOfChampers = episodes.map(url => {
 		const [number] = url.match(regex) || [];
 		return {

@@ -29,7 +29,7 @@ import { LayoutGeneral } from '@/components/layouts';
 
 import { _character } from '@/types';
 import { LocationDetails } from '@/components/ui/LocationDetails';
-import { ChapterList } from '@/components/ui';
+import { EpisodeList } from '@/components/ui';
 
 interface _props {
 	character: _character;
@@ -48,10 +48,10 @@ const CharacterPage: NextPage<_props> = ({ character }) => {
 		},
 		{
 			key: '2',
-			label: `${character.episode.length > 2 ? 'Chapters' : 'Champert'} • ${
+			label: `${character.episode.length > 2 ? 'Episodes' : 'Episode'} • ${
 				character.episode.length
 			}`,
-			children: <ChapterList episodes={character.episode} />,
+			children: <EpisodeList episodes={character.episode} />,
 		},
 	];
 	return (
