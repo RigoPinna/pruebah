@@ -10,7 +10,7 @@ import logo from '../../../public/logo.png';
 import styles from './styles.module.css';
 
 export const Navbar = () => {
-	const { push } = useRouter();
+	const { push, pathname } = useRouter();
 	const handleGoToHome = () => {
 		push(`/`);
 	};
@@ -30,11 +30,13 @@ export const Navbar = () => {
 						<Link href='/'>
 							<Image src={logo} alt='Rick and moorty logo' />
 						</Link>
-						<Input.Search
-							placeholder='Search by name'
-							onSearch={handleOnSearch}
-							style={{ width: 250, marginLeft: '16px' }}
-						/>
+						{pathname !== '/search' && (
+							<Input.Search
+								placeholder='Search by name'
+								onSearch={handleOnSearch}
+								style={{ width: 250, marginLeft: '16px' }}
+							/>
+						)}
 					</Row>
 					<Tooltip title='Go to home'>
 						<Button
