@@ -30,6 +30,7 @@ import { LayoutGeneral } from '@/components/layouts';
 import { _character } from '@/types';
 import { LocationDetails } from '@/components/ui/LocationDetails';
 import { EpisodeList } from '@/components/ui';
+import { statusColors } from '@/utils';
 
 interface _props {
 	character: _character;
@@ -57,7 +58,9 @@ const CharacterPage: NextPage<_props> = ({ character }) => {
 	return (
 		<LayoutGeneral>
 			<Layout style={{ background: `${colorBgContainer}` }}>
-				<Layout.Header style={{ background: `${colorBgContainer}` }}>
+				<Layout.Header
+					style={{ background: `${colorBgContainer}`, padding: 0 }}
+				>
 					<Breadcrumb
 						items={[
 							{
@@ -81,7 +84,10 @@ const CharacterPage: NextPage<_props> = ({ character }) => {
 				<Layout.Content>
 					<Row gutter={[16, 16]}>
 						<Col xs={24} md={12}>
-							<Badge.Ribbon text={'Alive'} color={'green'}>
+							<Badge.Ribbon
+								text={character.status}
+								color={statusColors[character.status] || 'blue'}
+							>
 								<Card
 									style={{ width: '100%' }}
 									cover={
@@ -114,7 +120,7 @@ const CharacterPage: NextPage<_props> = ({ character }) => {
 							<Row align='middle'>
 								<AuditOutlined />
 								<Typography.Text style={{ marginLeft: '5px' }} strong>
-									Specie: {character.species}
+									Species: {character.species}
 								</Typography.Text>
 							</Row>
 							<Row align='middle'>
