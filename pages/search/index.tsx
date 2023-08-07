@@ -99,10 +99,11 @@ const SearchPage: NextPage = () => {
 					style={{
 						background: `${colorBgContainer}`,
 						height: 'fit-content',
+						padding: '0',
 					}}
 				>
 					<Row justify={'center'}>
-						<Col xs={13}>
+						<Col xs={24} sm={24} lg={13}>
 							<Row>
 								<Input.Search
 									onChange={handleOnChange}
