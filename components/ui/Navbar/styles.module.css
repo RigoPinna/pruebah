@@ -4,6 +4,7 @@
     background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(22px);
     z-index: 9;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
     
 }
 .container {
@@ -16,5 +17,31 @@
     width: 100%;
 	max-width: 1270px;
     margin: 0 auto;
-
+}
+.logo_and_search {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.logo img {
+    width: 100%;
+    height: 100%;
+}
+.input_mobile {
+    display: none;
+    padding: 0 16px 16px
+}
+@media only screen and (max-width: 769px) {
+    .logo{
+        display: block;
+        height: 38px;
+    }
+}
+@media only screen and (max-width: 580px) {
+    .input_desktop_and_tablet {
+        display:none;
+    }
+    .input_mobile {
+        display:block;
+    }
 }

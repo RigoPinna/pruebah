@@ -15,29 +15,31 @@ export const Navbar = () => {
 		push(`/`);
 	};
 	const handleOnSearch = (value: string) => {
-		push({
-			pathname: '/search',
-			query: {
-				name: encodeURIComponent(value),
-			},
-		});
+		if (value.trim() !== '') {
+			push({
+				pathname: '/search',
+				query: {
+					name: encodeURIComponent(value.trim()),
+				},
+			});
+		}
 	};
 	return (
 		<Row className={styles.wrapper_header}>
 			<Col xs={24}>
 				<Layout className={styles.container}>
-					<Row align='middle'>
-						<Link href='/'>
+					<div className={styles.logo_and_search}>
+						<Link className={styles.logo} href='/'>
 							<Image src={logo} alt='Rick and moorty logo' />
 						</Link>
 						{pathname !== '/search' && (
 							<Input.Search
+								className={styles.input_desktop_and_tablet}
 								placeholder='Search by name'
 								onSearch={handleOnSearch}
-								style={{ width: 250, marginLeft: '16px' }}
 							/>
 						)}
-					</Row>
+					</div>
 					<Tooltip title='Go to home'>
 						<Button
 							shape='circle'
@@ -46,6 +48,13 @@ export const Navbar = () => {
 						/>
 					</Tooltip>
 				</Layout>
+				{pathname !== '/search' && (
+					<Input.Search
+						className={styles.input_mobile}
+						placeholder='Search by name'
+						onSearch={handleOnSearch}
+					/>
+				)}
 			</Col>
 		</Row>
 	);
