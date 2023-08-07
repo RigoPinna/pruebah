@@ -2,21 +2,11 @@
 import { NextPage } from 'next';
 import { LayoutGeneral } from '@/components/layouts';
 import { useSearchParams } from 'next/navigation';
-import {
-	Typography,
-	Input,
-	Layout,
-	theme,
-	Row,
-	Col,
-	Popover,
-	Button,
-	Space,
-	Skeleton,
-} from 'antd';
+import { Typography, Input, Layout, theme, Row, Col } from 'antd';
 import {
 	ButtonFilter,
 	CharacterList,
+	Paginator,
 	SearchLoadingList,
 	_character_minify,
 } from '@/components/ui';
@@ -32,7 +22,8 @@ const { useToken } = theme;
 interface _result {
 	status: 'ok' | 'error';
 	searchBy: string;
-	fillter: string;
+	currentPage: number;
+	pages: number;
 	characters: _character_minify[];
 	count: number;
 }
@@ -41,8 +32,9 @@ const SearchPage: NextPage = () => {
 	const searchParams = useSearchParams();
 	const [result, setResult] = useState<_result>({
 		status: 'ok',
+		currentPage: 1,
 		count: 0,
-		fillter: '',
+		pages: 0,
 		searchBy: '',
 		characters: [],
 	});
@@ -51,16 +43,15 @@ const SearchPage: NextPage = () => {
 	const {
 		token: { colorBgContainer },
 	} = useToken();
-	useEffect(() => {
-		const name = decodeURIComponent(searchParams.get('name') || '');
-		const specie = decodeURIComponent(searchParams.get('specie') || '');
+	const handleGetResult = (name: string, specie: string, page?: number) => {
 		if (name !== '' || specie !== '') {
-			getCharacterByNameOrSpecie(name, specie)
+			getCharacterByNameOrSpecie(name, specie, page || 1)
 				.then(data => {
 					setResult({
 						status: 'ok',
 						searchBy: name,
-						fillter: '',
+						currentPage: page || 1,
+						pages: data.info.pages,
 						count: data.info.count,
 						characters: data.results,
 					});
@@ -72,7 +63,8 @@ const SearchPage: NextPage = () => {
 					setResult({
 						status: 'error',
 						count: 0,
-						fillter: '',
+						pages: 0,
+						currentPage: 0,
 						searchBy: name,
 						characters: [],
 					});
@@ -81,6 +73,12 @@ const SearchPage: NextPage = () => {
 					setisLoading(false);
 				});
 		}
+	};
+	useEffect(() => {
+		handleGetResult(
+			decodeURIComponent(searchParams.get('name') || ''),
+			decodeURIComponent(searchParams.get('specie') || ''),
+		);
 	}, [searchParams]);
 	const handleOnSearch = (value: string) => {
 		if (value.trim() !== '') {
@@ -94,6 +92,13 @@ const SearchPage: NextPage = () => {
 	};
 	const handleOnChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
 		setSearchByName(target.value);
+	};
+	const handleNextPage = (pageSelected: number) => {
+		handleGetResult(
+			decodeURIComponent(searchParams.get('name') || ''),
+			decodeURIComponent(searchParams.get('specie') || ''),
+			pageSelected,
+		);
 	};
 	return (
 		<LayoutGeneral>
@@ -143,7 +148,16 @@ const SearchPage: NextPage = () => {
 					{isLoading ? (
 						<SearchLoadingList />
 					) : (
-						<CharacterList characters={result?.characters || []} />
+						<>
+							<CharacterList characters={result?.characters || []} />
+							{result.pages > 1 && (
+								<Paginator
+									currentPage={result.currentPage}
+									pages={result.pages}
+									onChange={handleNextPage}
+								/>
+							)}
+						</>
 					)}
 				</Layout.Content>
 			</Layout>
