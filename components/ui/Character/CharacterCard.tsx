@@ -1,8 +1,12 @@
+import { useRouter } from 'next/router';
+import { FC } from 'react';
+
 import { Badge, Button, Card, Col, Image } from 'antd';
 import { ArrowRightOutlined } from '@ant-design/icons';
-import styles from './CharacterCard.module.css';
-import { FC } from 'react';
+
 import { _status_character } from '@/types';
+
+import styles from './CharacterCard.module.css';
 export interface _character_minify {
 	id: number;
 	image: string;
@@ -19,8 +23,9 @@ export const CharacterCard: FC<_character_minify> = ({
 	status,
 	statusColor,
 }) => {
+	const router = useRouter();
 	const goToDetailsPage = () => {
-		console.log(id);
+		router.push(`/character/${id}`);
 	};
 
 	return (

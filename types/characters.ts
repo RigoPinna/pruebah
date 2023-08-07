@@ -18,7 +18,7 @@ export interface _character {
 	type: string;
 	gender: _gender;
 	origin: _location;
-	location: Location;
+	location: _location;
 	image: string;
 	episode: string[];
 	url: string;
